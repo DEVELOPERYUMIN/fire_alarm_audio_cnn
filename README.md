@@ -57,6 +57,11 @@ The model focuses on **pattern recognition**, not on domain-specific assumptions
 
 ---
 
+## 📦 Pretrained Model
+
+The pretrained MobileNetV2-based model  
+**`mobilenetv2_050_exp001.pt`**  
+is provided and can be used directly for inference.
 
 ---
 
