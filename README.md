@@ -62,8 +62,24 @@ The model focuses on **pattern recognition**, not on domain-specific assumptions
 The pretrained MobileNetV2-based model  
 **`mobilenetv2_050_exp001.pt`**  
 is provided and can be used directly for inference.
-<img width="600" height="400" alt="mobilenetv2_050_exp001_loss" src="https://github.com/user-attachments/assets/396203c8-0cd4-4d3d-a98b-35e682485980" />
-<img width="640" height="480" alt="mobilenetv2_050_exp001_cm" src="https://github.com/user-attachments/assets/8fa5d814-e15f-4337-b331-e235826900f7" />
+
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+  <figure>
+    <img src="https://github.com/user-attachments/assets/396203c8-0cd4-4d3d-a98b-35e682485980"
+         alt="Training Loss Curve"
+         width="450"/>
+    <figcaption align="center">Training Loss Curve</figcaption>
+  </figure>
+
+  <figure>
+    <img src="https://github.com/user-attachments/assets/8fa5d814-e15f-4337-b331-e235826900f7"
+         alt="Confusion Matrix"
+         width="450"/>
+    <figcaption align="center">Confusion Matrix</figcaption>
+  </figure>
+</div>
+
 
 ---
 
