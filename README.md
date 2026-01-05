@@ -69,8 +69,7 @@ is provided and can be used directly for inference.
   <figure style="text-align: center;">
     <img
       src="https://github.com/user-attachments/assets/396203c8-0cd4-4d3d-a98b-35e682485980"
-      alt="Training Loss Curve"
-      width="400"
+      width="420"
     />
     <figcaption><b>Training Loss Curve</b></figcaption>
   </figure>
@@ -78,8 +77,7 @@ is provided and can be used directly for inference.
   <figure style="text-align: center;">
     <img
       src="https://github.com/user-attachments/assets/8fa5d814-e15f-4337-b331-e235826900f7"
-      alt="Confusion Matrix"
-      width="400"
+      width="420"
     />
     <figcaption><b>Confusion Matrix</b></figcaption>
   </figure>
