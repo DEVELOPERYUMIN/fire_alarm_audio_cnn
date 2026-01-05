@@ -35,6 +35,8 @@ Pipeline:
 
 The model focuses on **pattern recognition**, not on domain-specific assumptions.
 
+<img width="1174" height="704" alt="image" src="https://github.com/user-attachments/assets/9a3915a8-16c1-480f-a33f-b516d630763e" />
+
 ---
 
 ## 🧠 Model Architecture
