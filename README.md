@@ -7,6 +7,71 @@
 
 ---
 
+## 🏢 Indoor Fire Evacuation Autonomous Drone System – Context
+
+### 🎯 System Goal
+
+This CNN model is a core component of an **Indoor Fire Evacuation Autonomous Drone System**,  
+whose primary goal is to **detect fire-related emergency situations early and guide occupants to safe evacuation routes in real time**.
+
+In indoor environments where visibility is limited and GPS is unavailable, **sound-based fire detection becomes a critical sensing modality**.  
+This system leverages **audio perception, autonomous drones, and intelligent decision-making** to support rapid and reliable evacuation guidance during fire emergencies.
+
+---
+
+### 🧩 Overall System Architecture
+
+The full system is designed as a **multi-modal, drone-assisted disaster response platform**, consisting of the following components:
+
+#### 🔊 Audio-Based Fire Detection (This CNN Model)
+- Real-time microphone input (on drone or edge device)
+- Fire alarm / emergency sound detection using CNN
+
+#### 🚁 Autonomous Indoor Drone Platform
+- Indoor navigation using **LiDAR + SLAM**
+- Obstacle avoidance and path planning (**A\***, **D\* Lite**)
+- Autonomous movement toward detected emergency zones
+
+#### 🧍 Human Detection & Localization
+- Thermal camera–based human detection
+- Bluetooth / BLE-based proximity sensing
+- Multi-sensor fusion for robust localization
+
+#### 🧭 Evacuation Guidance System
+- Visual / auditory / haptic feedback
+- Rope-guided evacuation or directional signaling
+- Mobile app integration for user interaction
+
+#### 🖥 Backend & Monitoring
+- **FastAPI-based server**
+- Real-time status visualization
+- Emergency event logging and decision support
+
+---
+
+### 🔊 Role of This CNN Model in the System
+
+This **Fire Alarm Audio Classification CNN** is used at the **very first stage of the disaster response pipeline**.
+
+Its role is to:
+
+- Continuously monitor ambient audio
+- Detect fire alarm sounds or other emergency-like repetitive signals
+- Trigger the activation of the autonomous evacuation system
+
+Once a fire alarm sound is detected with high confidence:
+
+1. The detection event is sent to the control system
+2. The autonomous drone is dispatched toward the detected area
+3. Human detection and evacuation guidance modules are activated
+4. Real-time evacuation assistance begins
+
+➡️ **In short:**
+
+> This CNN model acts as the **auditory trigger** that initiates the entire autonomous fire evacuation process.
+
+---
+
 ## 📌 Project Overview
 
 This repository contains a **Convolutional Neural Network (CNN)**–based audio classification model designed to detect **fire alarm sounds** from audio input.
