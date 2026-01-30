@@ -325,7 +325,7 @@ import torch
 import librosa
 
 # ======================
-# 설정 (학습과 동일하게)
+# 설정 
 # ======================
 SR = 22050
 N_MELS = 64
@@ -333,7 +333,7 @@ N_FFT = 2048
 HOP_LENGTH = 512
 TARGET_SIZE = (224, 224)
 
-CLASS_NAMES = ["fire_alarm", "non_fire_alarm"]  # TODO: 본인 클래스 순서로 수정
+CLASS_NAMES = ["fire_alarm", "non_fire_alarm"]  # TODO: 본인 클래스 순서로 수정할 것
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -355,7 +355,7 @@ def load_audio_to_logmel(path: str) -> torch.Tensor:
 
     logmel = librosa.power_to_db(mel, ref=np.max)
 
-    # 0~1 정규화 (학습 때와 동일해야 가장 좋음)
+    # 0~1 정규화 
     logmel = (logmel - logmel.min()) / (logmel.max() - logmel.min() + 1e-8)
 
     x = torch.tensor(logmel, dtype=torch.float32)[None, None, :, :]
@@ -384,7 +384,7 @@ if __name__ == "__main__":
     MODEL_PATH = "mobilenetv2_050_exp001.pt"
     AUDIO_PATH = "sample.wav"
 
-    # 🔥 전체 모델 로드
+    # 전체 모델 로드
     model = torch.load(MODEL_PATH, map_location=DEVICE)
     model.eval()
 
