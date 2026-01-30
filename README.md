@@ -305,6 +305,4 @@ MobileNetV2 기반 사전학습 모델
 ---
 ## 🏆 결과
 최우수상(2위)
-## 공모전 발표자료  
-ICT[ICT 공모전_실내대피 유도 자율주행 드론 시스템 .pdf](https://github.com/user-attachments/files/24970517/ICT._.pdf)
- 
+
