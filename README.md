@@ -1,212 +1,225 @@
-# 🔥 Fire Alarm Audio Classification CNN
+# 🔥 화재 경보 음성 분류 CNN
 
-> **CNN-based classification of fire alarm sounds and other repetitive / periodic audio events**  
->  
-> This project focuses on detecting fire alarm sounds using a Log-Mel Spectrogram + CNN pipeline,  
-> while being **generalizable to various repetitive and periodic sound classification tasks**.
-
----
-
-## 🏢 Indoor Fire Evacuation Autonomous Drone System – Context
-
-### 🎯 System Goal
-
-This CNN model is a core component of an **Indoor Fire Evacuation Autonomous Drone System**,  
-whose primary goal is to **detect fire-related emergency situations early and guide occupants to safe evacuation routes in real time**.
-
-In indoor environments where visibility is limited and GPS is unavailable, **sound-based fire detection becomes a critical sensing modality**.  
-This system leverages **audio perception, autonomous drones, and intelligent decision-making** to support rapid and reliable evacuation guidance during fire emergencies.
+> **CNN 기반의 화재 경보음 및 기타 반복적/주기적 오디오 이벤트 분류**
+>
+> 본 프로젝트는 Log-Mel 스펙트로그램 + CNN 파이프라인을 이용해 화재 경보음을 탐지하는 데 초점을 두며,
+> **다양한 반복적·주기적 소리 분류 작업으로도 일반화 가능**하도록 설계되었습니다.
 
 ---
 
-### 🧩 Overall System Architecture
+## 🏢 실내 화재 대피 자율 드론 시스템 – 맥락
 
-The full system is designed as a **multi-modal, drone-assisted disaster response platform**, consisting of the following components:
+### 🎯 시스템 목표
 
-#### 🔊 Audio-Based Fire Detection (This CNN Model)
-- Real-time microphone input (on drone or edge device)
-- Fire alarm / emergency sound detection using CNN
+이 CNN 모델은 **실내 화재 대피 자율 드론 시스템**의 핵심 구성 요소로,
+주요 목표는 **화재 관련 비상 상황을 조기에 감지하고, 실시간으로 안전한 대피 경로로 거주자를 안내**하는 것입니다.
 
-#### 🚁 Autonomous Indoor Drone Platform
-- Indoor navigation using **LiDAR + SLAM**
-- Obstacle avoidance and path planning (**A\***, **D\* Lite**)
-- Autonomous movement toward detected emergency zones
-
-#### 🧍 Human Detection & Localization
-- Thermal camera–based human detection
-- Bluetooth / BLE-based proximity sensing
-- Multi-sensor fusion for robust localization
-
-#### 🧭 Evacuation Guidance System
-- Visual / auditory / haptic feedback
-- Rope-guided evacuation or directional signaling
-- Mobile app integration for user interaction
-
-#### 🖥 Backend & Monitoring
-- **FastAPI-based server**
-- Real-time status visualization
-- Emergency event logging and decision support
+실내 환경에서는 가시성이 제한되고 GPS 사용이 불가능한 경우가 많아, **소리 기반 화재 감지는 매우 중요한 센싱 방식**이 됩니다.
+본 시스템은 **오디오 인지, 자율 드론, 지능형 의사결정**을 결합하여 화재 비상 상황에서 빠르고 신뢰할 수 있는 대피 안내를 지원합니다.
 
 ---
 
-### 🔊 Role of This CNN Model in the System
+### 🧩 전체 시스템 아키텍처
 
-This **Fire Alarm Audio Classification CNN** is used at the **very first stage of the disaster response pipeline**.
+전체 시스템은 **멀티모달 기반의 드론 보조 재난 대응 플랫폼**으로 설계되었으며, 다음 구성 요소로 이루어집니다:
+#### 하드웨어 구성도
+<img width="875" height="493" alt="하드웨어 구성도" src="https://github.com/user-attachments/assets/6f9bd616-fdcd-4f10-995d-aab3687059f4" />
 
-Its role is to:
+#### 전체시스템 순서도
+<img width="875" height="493" alt="전체시스템순서도" src="https://github.com/user-attachments/assets/de9fb52c-d7be-417f-a3e1-aaa40319902e" />
 
-- Continuously monitor ambient audio
-- Detect fire alarm sounds or other emergency-like repetitive signals
-- Trigger the activation of the autonomous evacuation system
+#### 🔊 오디오 기반 화재 감지 (본 CNN 모델)
 
-Once a fire alarm sound is detected with high confidence:
+* 실시간 마이크 입력(드론 또는 엣지 디바이스)
+* CNN을 이용한 화재 경보/비상음 감지
 
-1. The detection event is sent to the control system
-2. The autonomous drone is dispatched toward the detected area
-3. Human detection and evacuation guidance modules are activated
-4. Real-time evacuation assistance begins
+#### 🚁 실내 자율 드론 플랫폼
 
-➡️ **In short:**
+* **LiDAR + SLAM** 기반 실내 내비게이션
+* 장애물 회피 및 경로 계획(**A***, **D* Lite**)
+* 감지된 비상 구역으로의 자율 이동
 
-> This CNN model acts as the **auditory trigger** that initiates the entire autonomous fire evacuation process.
+#### 🧍 사람 감지 및 위치 추정
+
+* 열화상 카메라 기반 사람 감지
+* Bluetooth / BLE 기반 근접 센싱
+* 강인한 위치 추정을 위한 멀티센서 융합
+
+#### 🧭 대피 안내 시스템
+
+* 시각/청각/촉각 피드백
+* 로프 유도 대피 또는 방향 신호 제공
+* 사용자 상호작용을 위한 모바일 앱 연동
+
+#### 🖥 백엔드 및 모니터링
+
+* **FastAPI 기반 서버**
+* 실시간 상태 시각화
+* 비상 이벤트 로깅 및 의사결정 지원
 
 ---
 
-## 📌 Project Overview
+### 🔊 시스템 내 본 CNN 모델의 역할
 
-This repository contains a **Convolutional Neural Network (CNN)**–based audio classification model designed to detect **fire alarm sounds** from audio input.
+이 **화재 경보 음성 분류 CNN**은 재난 대응 파이프라인의 **가장 첫 단계**에서 사용됩니다.
 
-Rather than relying on semantic understanding of sound, the model learns **time–frequency patterns** that commonly appear in alarm-like audio signals, such as:
+역할은 다음과 같습니다:
 
-- Strong periodicity  
-- Repetitive frequency structures  
-- High-energy spectral bands  
+* 주변(환경) 소리를 지속적으로 모니터링
+* 화재 경보음 또는 기타 비상 상황과 유사한 반복 신호를 감지
+* 자율 대피 시스템의 활성화를 트리거
 
-Because of this design, the model is not limited to fire alarms and can be **easily adapted to classify other repetitive or structured sound events**.
+화재 경보음이 높은 신뢰도로 감지되면:
+
+1. 감지 이벤트가 제어 시스템으로 전송됨
+2. 자율 드론이 감지된 구역으로 출동함
+3. 사람 감지 및 대피 안내 모듈이 활성화됨
+4. 실시간 대피 지원이 시작됨
+
+➡️ **요약하면:**
+
+> 이 CNN 모델은 전체 실내 화재 자율 대피 프로세스를 시작시키는 **청각 트리거(auditory trigger)** 역할을 합니다.
 
 ---
 
-## 🎯 Core Idea
+## 📌 프로젝트 개요
 
-> **Repetitive sounds exhibit consistent patterns in the time–frequency domain.**
+이 저장소는 오디오 입력으로부터 **화재 경보음**을 감지하도록 설계된 **합성곱 신경망(CNN) 기반 오디오 분류 모델**을 담고 있습니다.
 
-This project leverages the fact that alarm sounds, warning beeps, sirens, and similar audio events form **stable and repeatable spectrogram patterns**.
+이 모델은 소리를 의미적으로 이해(semantic understanding)하기보다는, 경보음과 같은 신호에서 흔히 나타나는 **시간–주파수 패턴**을 학습합니다. 예를 들면:
 
-Pipeline:
-1. Raw audio waveform
-2. Log-Mel Spectrogram transformation
-3. CNN-based spatial pattern learning
-4. Sound event classification
+* 강한 주기성
+* 반복적인 주파수 구조
+* 에너지가 큰 스펙트럼 대역
 
-The model focuses on **pattern recognition**, not on domain-specific assumptions.
+이러한 설계 덕분에, 본 모델은 화재 경보음에만 국한되지 않고 **다른 반복적·구조적 소리 이벤트 분류로도 쉽게 확장**할 수 있습니다.
+
+---
+
+## 🎯 핵심 아이디어
+
+> **반복되는 소리는 시간–주파수 영역에서 일관된 패턴을 보인다.**
+
+본 프로젝트는 경보음, 경고 비프음, 사이렌 등과 같은 오디오 이벤트가 스펙트로그램 상에서 **안정적이고 반복 가능한 패턴**을 형성한다는 점을 활용합니다.
+
+파이프라인:
+
+1. 원시 오디오 파형(Raw audio waveform)
+2. Log-Mel 스펙트로그램 변환
+3. CNN 기반 공간 패턴 학습
+4. 사운드 이벤트 분류
+
+이 모델은 도메인 특화 가정에 의존하기보다, **패턴 인식(pattern recognition)**에 초점을 둡니다.
 
 <img
-  src="https://github.com/user-attachments/assets/9a3915a8-16c1-480f-a33f-b516d630763e"
-  alt="Training Results"
-  width="600"
+src="https://github.com/user-attachments/assets/9a3915a8-16c1-480f-a33f-b516d630763e"
+alt="학습 결과"
+width="600"
 />
 
+---
+
+## 🧠 모델 아키텍처
+
+* **입력 표현(Input Representation)**
+
+  * Log-Mel 스펙트로그램
+  * 샘플링 레이트: `22050 Hz`
+  * `n_mels = 64`
+  * `n_fft = 2048`
+  * `hop_length = 512`
+
+* **모델(Model)**
+
+  * CNN 기반 오디오 분류 네트워크
+  * 경량 백본과 호환 가능 (예: MobileNetV2, EfficientNet-Lite)
+
+* **출력(Output)**
+
+  * 사운드 이벤트에 대한 클래스 확률
+
+> 오디오 분류 문제를 시간–주파수 영역에서의 이미지 분류 문제로 취급합니다.
 
 ---
 
-## 🧠 Model Architecture
+## 📦 사전학습(Pretrained) 모델
 
-- **Input Representation**
-  - Log-Mel Spectrogram
-  - Sampling Rate: `22050 Hz`
-  - `n_mels = 64`
-  - `n_fft = 2048`
-  - `hop_length = 512`
+MobileNetV2 기반 사전학습 모델
+**`mobilenetv2_050_exp001.pt`**
+이 제공되며, 추론(inference)에 바로 사용할 수 있습니다.
 
-- **Model**
-  - CNN-based audio classification network
-  - Compatible with lightweight backbones (e.g., MobileNetV2, EfficientNet-Lite)
-
-- **Output**
-  - Class probability for sound events
-
-> The audio classification task is treated as an image classification problem in the time–frequency domain.
-
----
-
-## 📦 Pretrained Model
-
-The pretrained MobileNetV2-based model  
-**`mobilenetv2_050_exp001.pt`**  
-is provided and can be used directly for inference.
-
-
- <div style="display: flex; justify-content: center; gap: 40px; align-items: flex-start;">
+<div style="display: flex; justify-content: center; gap: 40px; align-items: flex-start;">
   <img
     src="https://github.com/user-attachments/assets/396203c8-0cd4-4d3d-a98b-35e682485980"
-    alt="Training Loss Curve"
+    alt="학습 손실 곡선"
     width="420"
   />
   <img
     src="https://github.com/user-attachments/assets/8fa5d814-e15f-4337-b331-e235826900f7"
-    alt="Confusion Matrix"
+    alt="혼동 행렬"
     width="420"
   />
 </div>
 
+---
+
+## 🔄 일반화(Generalization) 가능성
+
+본 모델은 주로 **화재 경보음**을 대상으로 학습되었지만, 약간의 수정만으로 다른 작업에도 재사용할 수 있습니다.
+
+### 적용 가능한 소리 유형
+
+* 비상 사이렌 및 경보음
+* 산업용 경고음
+* 기계 알림 비프음
+* 주기적인 기계 소음
+* 구조화된 환경 오디오 이벤트
+
+### 일반화가 잘 되는 이유
+
+* **주기적인 스펙트럼 패턴**을 학습함
+* 배경 잡음에 강인함
+* 절대적인 소리 정체성보다 주파수 반복성에 집중함
+* 새로운 라벨/데이터셋으로 쉽게 재학습 가능함
+
+➡️ 데이터셋을 교체하고 재학습만 하면, 새로운 반복 소리 분류 작업에 쉽게 적응시킬 수 있습니다.
 
 ---
 
-## 🔄 Generalization Capability
+## 🚀 잠재적 활용 분야
 
-Although trained primarily on **fire alarm sounds**, this model can be reused for other tasks with minimal modification.
-
-### Applicable Sound Types
-- Emergency sirens and alarms
-- Industrial warning sounds
-- Machine alert beeps
-- Periodic mechanical noises
-- Structured environmental audio events
-
-### Why It Generalizes Well
-- Learns **periodic spectral patterns**
-- Robust to background noise
-- Focuses on frequency repetition rather than absolute sound identity
-- Easily retrainable with new labels and datasets
-
-➡️ Simply replace the dataset and retrain to adapt the model to a new repetitive sound classification task.
+* 🔔 화재 및 비상 경보음 감지
+* 🏭 산업 현장 이상/경고 모니터링
+* 🤖 로보틱스 및 드론 기반 재난 대응
+* 🏢 스마트 빌딩 사운드 모니터링
+* 📱 실시간 마이크 기반 이벤트 감지 시스템
 
 ---
 
-## 🚀 Potential Applications
+## 🧪 학습 및 평가(Training & Evaluation)
 
-- 🔔 Fire and emergency alarm detection
-- 🏭 Industrial anomaly and alert monitoring
-- 🤖 Robotics and drone-based disaster response
-- 🏢 Smart building sound monitoring
-- 📱 Real-time microphone-based event detection systems
+* Log-Mel 스펙트로그램 전처리
+* 선택적 데이터 증강(augmentation)
 
----
-
-## 🧪 Training & Evaluation
-
-- Log-Mel Spectrogram preprocessing
-- Optional data augmentation
-  - Time shifting
-  - Noise injection
-- Cross-validation supported
-- Real-time inference pipeline available
+  * 시간 이동(Time shifting)
+  * 잡음 주입(Noise injection)
+* 교차 검증(Cross-validation) 지원
+* 실시간 추론 파이프라인 제공
 
 ---
 
-## 📈 Future Work
+## 📈 향후 작업(Future Work)
 
-- [ ] Validation on diverse repetitive sound datasets
-- [ ] Multi-class and multi-label sound event detection
-- [ ] Real-time streaming optimization
-- [ ] Edge device deployment (Jetson, mobile)
-- [ ] Integration with embedded or robotic systems
-
+* [ ] 다양한 반복 소리 데이터셋에 대한 검증
+* [ ] 멀티클래스 및 멀티라벨 사운드 이벤트 감지
+* [ ] 실시간 스트리밍 최적화
+* [ ] 엣지 디바이스 배포(Jetson, 모바일)
+* [ ] 임베디드/로봇 시스템 통합
 
 ---
 
-## 👤 Author
+## 👤 작성자
 
-**Yumin Ahn**  
-AI Audio Classification · CNN · Edge & Embedded AI  
-Disaster Response & Intelligent Systems Research
+**Yumin Ahn**
+AI 오디오 분류 · CNN · 엣지 & 임베디드 AI
+재난 대응 & 지능형 시스템 연구
