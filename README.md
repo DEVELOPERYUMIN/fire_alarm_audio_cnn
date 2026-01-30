@@ -306,3 +306,100 @@ MobileNetV2 기반 사전학습 모델
 ## 🏆 결과
 최우수상(2위)
 
+---
+## 추론 코드
+
+### 1️⃣ 설치
+
+```bash
+pip install torch librosa numpy
+```
+
+---
+
+### 2️⃣ inference.py
+
+```python
+import numpy as np
+import torch
+import librosa
+
+# ======================
+# 설정 (학습과 동일하게)
+# ======================
+SR = 22050
+N_MELS = 64
+N_FFT = 2048
+HOP_LENGTH = 512
+TARGET_SIZE = (224, 224)
+
+CLASS_NAMES = ["fire_alarm", "non_fire_alarm"]  # TODO: 본인 클래스 순서로 수정
+
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+
+
+def load_audio_to_logmel(path: str) -> torch.Tensor:
+    """
+    오디오 파일 -> log-mel -> (1, 224, 224) 텐서
+    """
+    y, _ = librosa.load(path, sr=SR, mono=True)
+
+    mel = librosa.feature.melspectrogram(
+        y=y,
+        sr=SR,
+        n_fft=N_FFT,
+        hop_length=HOP_LENGTH,
+        n_mels=N_MELS,
+        power=2.0
+    )
+
+    logmel = librosa.power_to_db(mel, ref=np.max)
+
+    # 0~1 정규화 (학습 때와 동일해야 가장 좋음)
+    logmel = (logmel - logmel.min()) / (logmel.max() - logmel.min() + 1e-8)
+
+    x = torch.tensor(logmel, dtype=torch.float32)[None, None, :, :]
+    x = torch.nn.functional.interpolate(
+        x, size=TARGET_SIZE, mode="bilinear", align_corners=False
+    )
+
+    return x.squeeze(0)  # (1,224,224)
+
+
+@torch.no_grad()
+def predict(model, wav_path):
+    x = load_audio_to_logmel(wav_path).unsqueeze(0).to(DEVICE)  # (1,1,224,224)
+
+    logits = model(x)
+    probs = torch.softmax(logits, dim=1)[0]
+
+    top_idx = int(torch.argmax(probs).item())
+    top_label = CLASS_NAMES[top_idx]
+    top_prob = float(probs[top_idx].item())
+
+    return top_label, top_prob
+
+
+if __name__ == "__main__":
+    MODEL_PATH = "mobilenetv2_050_exp001.pt"
+    AUDIO_PATH = "sample.wav"
+
+    # 🔥 전체 모델 로드
+    model = torch.load(MODEL_PATH, map_location=DEVICE)
+    model.eval()
+
+    label, prob = predict(model, AUDIO_PATH)
+
+    print(f"[PREDICTION] {label} ({prob:.4f})")
+```
+
+---
+
+### 3️⃣ 실행
+
+```bash
+python inference.py
+```
+
+
+
